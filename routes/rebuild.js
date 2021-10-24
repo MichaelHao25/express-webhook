@@ -18,32 +18,27 @@ const rebuild = () => {
         exec('git pull --rebase && yarn && yarn run build', {cwd: pwd}, (error, stdout) => {
             if (error) {
                 console.log(error)
-                throw new Error('yarn run build 构建失败');
             } else {
                 console.log(stdout.toString())
                 resolve();
             }
         });
-    }).
-    then(() => {
+    }).then(() => {
         return new Promise((resolve) => {
             exec('rm -rf public', {cwd: path.normalize(__dirname + '/../')}, (error, stdout) => {
                 if (error) {
                     console.log(error)
-                    throw error;
                 } else {
                     console.log(stdout.toString())
                     resolve();
                 }
             });
         })
-    }).
-    then(()=>{
+    }).then(() => {
         return new Promise((resolve) => {
             exec('mv -f dist ../webhooks/public', {cwd: pwd}, (error, stdout) => {
                 if (error) {
                     console.log(error)
-                    throw error;
                 } else {
                     console.log(stdout.toString())
                     resolve();
